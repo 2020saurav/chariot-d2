@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'com.sparkjava:spark-core:2.3'
+    compile 'com.google.code.gson:gson:1.7.2'
+}
+
+task runD2Server(type: JavaExec, dependsOn: 'classes') {
+    group 'D2'
+    description 'Runs Spark server for Dynamic Discovery'
+    main = 'in.cs654.chariot.d2.D2Server'
+    classpath = sourceSets.main.runtimeClasspath
+}
