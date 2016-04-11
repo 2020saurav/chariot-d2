@@ -1,5 +1,9 @@
 package in.cs654.chariot.d2;
 
+import spark.Request;
+import spark.Response;
+import spark.Route;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,15 +16,22 @@ public class D2Server {
 
     public static void main(String[] args) {
 
-        get("/prashtis", (req, res) -> prashtiList, json());
-
-        post("/prashtis", (req, res) -> {
-            String ipAddr1 = req.queryParams("ip1");
-            String ipAddr2 = req.queryParams("ip2");
+        get(new Route("/prashtis") {
+            @Override
+            public Object handle(Request request, Response response) {
+                return toJson(prashtiList);
+            }
+        });
+        post(new Route("/prashtis") {
+            @Override
+            public Object handle(Request request, Response response) {
+            String ipAddr1 = request.queryParams("ip1");
+            String ipAddr2 = request.queryParams("ip2");
             prashtiList.clear();
             prashtiList.add(new Prashti(ipAddr1));
             prashtiList.add(new Prashti(ipAddr2));
-            return prashtiList;
-        }, json());
+            return toJson(prashtiList);
+            }
+        });
     }
 }
